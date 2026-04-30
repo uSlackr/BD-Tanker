@@ -1,0 +1,162 @@
+substitutions:
+  devicename: "bd-remote-c"
+  friendly_name: BD-Remote-C
+  one_wire_pin: "16"
+  dallas_b_addr: "0x6100000fadbf9728"
+  dallas_a_addr: "0x33000000b41a7528"
+  dallas_d_addr: "0xf0000000ba0bbe28"
+  dallas_c_addr: "0xff000000baf01928"
+
+
+packages:
+  bd_probe_base: !include bd-probe-base.yaml
+esphome:
+  name: ${devicename}
+  friendly_name: ${friendly_name}
+
+# Packet transport to send sensor data via UDP
+packet_transport:
+  id: pt_1
+  platform: udp
+  update_interval: ${packet_update_period}
+  encryption: !secret bd_udp_enc
+  rolling_code_enable: true
+  sensors:
+    - bdc_temp_sensor_1
+    - bdc_temp_sensor_2
+    - bdc_temp_sensor_3
+    - bdc_temp_sensor_4
+
+# Global variables to store calibration offsets from Home Assistant
+globals:
+  - id: cal_offset_1
+    type: float
+    restore_value: yes
+    initial_value: '0.0'
+  - id: cal_offset_2
+    type: float
+    restore_value: yes
+    initial_value: '0.0'
+  - id: cal_offset_3
+    type: float
+    restore_value: yes
+    initial_value: '0.0'
+  - id: cal_offset_4
+    type: float
+    restore_value: yes
+    initial_value: '0.0'
+
+# Template sensors to import calibration values from Home Assistant
+number:
+  - platform: template
+    name: "Temp Sensor 1 Calibration"
+    id: temp_cal_1
+    min_value: -10.0
+    max_value: 10.0
+    step: 0.1
+    mode: box
+    optimistic: false
+    unit_of_measurement: "°C"
+    lambda: 'return id(cal_offset_1);'
+    set_action:
+      - globals.set:
+          id: cal_offset_1
+          value: !lambda 'return x;'
+
+  - platform: template
+    name: "Temp Sensor 2 Calibration"
+    id: temp_cal_2
+    min_value: -10.0
+    max_value: 10.0
+    step: 0.1
+    mode: box
+    optimistic: false
+    unit_of_measurement: "°C"
+    lambda: 'return id(cal_offset_2);'
+    set_action:
+      - globals.set:
+          id: cal_offset_2
+          value: !lambda 'return x;'
+
+  - platform: template
+    name: "Temp Sensor 3 Calibration"
+    id: temp_cal_3
+    min_value: -10.0
+    max_value: 10.0
+    step: 0.1
+    mode: box
+    optimistic: false
+    unit_of_measurement: "°C"
+    lambda: 'return id(cal_offset_3);'
+    set_action:
+      - globals.set:
+          id: cal_offset_3
+          value: !lambda 'return x;'
+
+  - platform: template
+    name: "Temp Sensor 4 Calibration"
+    id: temp_cal_4
+    min_value: -10.0
+    max_value: 10.0
+    step: 0.1
+    mode: box
+    optimistic: false
+    unit_of_measurement: "°C"
+    lambda: 'return id(cal_offset_4);'
+    set_action:
+      - globals.set:
+          id: cal_offset_4
+          value: !lambda 'return x;'
+
+sensor:
+  - platform: dallas_temp
+    one_wire_id: dallas_hub
+    address: ${dallas_a_addr}
+    name: "BDC Temperature Sensor 1"
+    id: bdc_temp_sensor_1
+    update_interval: ${dallas_update_period}
+    filters:
+      - lambda: return x + id(cal_offset_1);
+      - sliding_window_moving_average:
+          window_size: 6
+          send_every: 1
+      - round: 1
+
+  - platform: dallas_temp
+    one_wire_id: dallas_hub
+    address: ${dallas_b_addr}
+    name: "BDC Temperature Sensor 2"
+    id: bdc_temp_sensor_2
+    update_interval: ${dallas_update_period}
+    filters:
+      - lambda: return x + id(cal_offset_2);
+      - sliding_window_moving_average:
+          window_size: 6
+          send_every: 1
+      - round: 1
+
+  - platform: dallas_temp
+    one_wire_id: dallas_hub
+    address: ${dallas_c_addr}
+    name: "BDC Temperature Sensor 3"
+    id: bdc_temp_sensor_3
+    update_interval: ${dallas_update_period}
+    filters:
+      - lambda: return x + id(cal_offset_3);
+      - sliding_window_moving_average:
+          window_size: 6
+          send_every: 1
+      - round: 1
+
+  - platform: dallas_temp
+    one_wire_id: dallas_hub
+    address: ${dallas_d_addr}
+    name: "BDC Temperature Sensor 4"
+    id: bdc_temp_sensor_4
+    update_interval: ${dallas_update_period}
+    filters:
+      - lambda: return x + id(cal_offset_4);
+      - sliding_window_moving_average:
+          window_size: 6
+          send_every: 1
+      - round: 1

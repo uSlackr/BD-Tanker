@@ -1,0 +1,309 @@
+substitutions:
+  devicename: "bd-remote-a"
+  friendly_name: BD-Remote-A
+  one_wire_pin: "15"
+  # dallas_a_addr: "0x9d000000b1c48d28"
+  # dallas_b_addr: "0x52000000b4d04b28"
+  # dallas_c_addr: "0xff000000baf01928"
+  # dallas_d_addr: "0x1f000000b4c35428"
+  # dallas_e_addr: "0xe70000007bcfe828"
+  # dallas_f_addr: "0xe90000007a7a1a28"
+  # dallas_g_addr: "0x8400000fae202128"
+  # dallas_h_addr: "0xe800000fae597528"
+  dallas_b_addr: "0xe3000000ba390028"
+  dallas_f_addr: "0xe1000000ba840828"
+  dallas_g_addr: "0xc1000000af894828"
+  dallas_a_addr: "0x27000000be00fa28"
+  dallas_c_addr: "0x9c000000be96c628"
+  dallas_h_addr: "0x0f00000052829128"
+  dallas_e_addr: "0xf0000000b4da2f28"
+  dallas_d_addr: "0x2b000000be8c1028"
+
+
+packages:
+  bd_probe_base: !include bd-probe-base.yaml
+
+esphome:
+  name: ${devicename}
+  friendly_name: ${friendly_name}
+
+
+
+# Packet transport to send sensor data via UDP
+packet_transport:
+  id: pt_1
+  platform: udp
+  update_interval: ${packet_update_period}
+  encryption: !secret bd_udp_enc
+  rolling_code_enable: true
+  sensors:
+    - bda_temp_sensor_1
+    - bda_temp_sensor_2
+    - bda_temp_sensor_3
+    - bda_temp_sensor_4
+    - bda_temp_sensor_5
+    - bda_temp_sensor_6
+    - bda_temp_sensor_7
+    - bda_temp_sensor_8
+
+# Global variables to store calibration offsets from Home Assistant
+globals:
+  - id: cal_offset_1
+    type: float
+    restore_value: yes
+    initial_value: '0.0'
+  - id: cal_offset_2
+    type: float
+    restore_value: yes
+    initial_value: '0.0'
+  - id: cal_offset_3
+    type: float
+    restore_value: yes
+    initial_value: '0.0'
+  - id: cal_offset_4
+    type: float
+    restore_value: yes
+    initial_value: '0.0'
+  - id: cal_offset_5
+    type: float
+    restore_value: yes
+    initial_value: '0.0'
+  - id: cal_offset_6
+    type: float
+    restore_value: yes
+    initial_value: '0.0'
+  - id: cal_offset_7
+    type: float
+    restore_value: yes
+    initial_value: '0.0'
+  - id: cal_offset_8
+    type: float
+    restore_value: yes
+    initial_value: '0.0'
+
+# Template sensors to import calibration values from Home Assistant
+number:
+  - platform: template
+    name: "Temp Sensor 1 Calibration"
+    id: temp_cal_1
+    min_value: -10.0
+    max_value: 10.0
+    step: 0.1
+    mode: box
+    optimistic: false
+    unit_of_measurement: "°C"
+    lambda: 'return id(cal_offset_1);'
+    set_action:
+      - globals.set:
+          id: cal_offset_1
+          value: !lambda 'return x;'
+
+  - platform: template
+    name: "Temp Sensor 2 Calibration"
+    id: temp_cal_2
+    min_value: -10.0
+    max_value: 10.0
+    step: 0.1
+    mode: box
+    optimistic: false
+    unit_of_measurement: "°C"
+    lambda: 'return id(cal_offset_2);'
+    set_action:
+      - globals.set:
+          id: cal_offset_2
+          value: !lambda 'return x;'
+
+  - platform: template
+    name: "Temp Sensor 3 Calibration"
+    id: temp_cal_3
+    min_value: -10.0
+    max_value: 10.0
+    step: 0.1
+    mode: box
+    optimistic: false
+    unit_of_measurement: "°C"
+    lambda: 'return id(cal_offset_3);'
+    set_action:
+      - globals.set:
+          id: cal_offset_3
+          value: !lambda 'return x;'
+
+  - platform: template
+    name: "Temp Sensor 4 Calibration"
+    id: temp_cal_4
+    min_value: -10.0
+    max_value: 10.0
+    step: 0.1
+    mode: box
+    optimistic: false
+    unit_of_measurement: "°C"
+    lambda: 'return id(cal_offset_4);'
+    set_action:
+      - globals.set:
+          id: cal_offset_4
+          value: !lambda 'return x;'
+
+  - platform: template
+    name: "Temp Sensor 5 Calibration"
+    id: temp_cal_5
+    min_value: -10.0
+    max_value: 10.0
+    step: 0.1
+    mode: box
+    optimistic: false
+    unit_of_measurement: "°C"
+    lambda: 'return id(cal_offset_5);'
+    set_action:
+      - globals.set:
+          id: cal_offset_5
+          value: !lambda 'return x;'
+
+  - platform: template
+    name: "Temp Sensor 6 Calibration"
+    id: temp_cal_6
+    min_value: -10.0
+    max_value: 10.0
+    step: 0.1
+    mode: box
+    optimistic: false
+    unit_of_measurement: "°C"
+    lambda: 'return id(cal_offset_6);'
+    set_action:
+      - globals.set:
+          id: cal_offset_6
+          value: !lambda 'return x;'
+
+  - platform: template
+    name: "Temp Sensor 7 Calibration"
+    id: temp_cal_7
+    min_value: -10.0
+    max_value: 10.0
+    step: 0.1
+    mode: box
+    optimistic: false
+    unit_of_measurement: "°C"
+    lambda: 'return id(cal_offset_7);'
+    set_action:
+      - globals.set:
+          id: cal_offset_7
+          value: !lambda 'return x;'
+
+  - platform: template
+    name: "Temp Sensor 8 Calibration"
+    id: temp_cal_8
+    min_value: -10.0
+    max_value: 10.0
+    step: 0.1
+    mode: box
+    optimistic: false
+    unit_of_measurement: "°C"
+    lambda: 'return id(cal_offset_8);'
+    set_action:
+      - globals.set:
+          id: cal_offset_8
+          value: !lambda 'return x;'
+
+sensor:
+  - platform: dallas_temp
+    one_wire_id: dallas_hub
+    address: ${dallas_a_addr}
+    name: "BDA Temperature Sensor 1"
+    id: bda_temp_sensor_1
+    update_interval: ${dallas_update_period}
+    filters:
+      - lambda: return x + id(cal_offset_1);
+      - sliding_window_moving_average:
+          window_size: 6
+          send_every: 1
+      - round: 1
+
+  - platform: dallas_temp
+    one_wire_id: dallas_hub
+    address: ${dallas_b_addr}
+    name: "BDA Temperature Sensor 2"
+    id: bda_temp_sensor_2
+    update_interval: ${dallas_update_period}
+    filters:
+      - lambda: return x + id(cal_offset_2);
+      - sliding_window_moving_average:
+          window_size: 6
+          send_every: 1
+      - round: 1
+
+  - platform: dallas_temp
+    one_wire_id: dallas_hub
+    address: ${dallas_c_addr}
+    name: "BDA Temperature Sensor 3"
+    id: bda_temp_sensor_3
+    update_interval: ${dallas_update_period}
+    filters:
+      - lambda: return x + id(cal_offset_3);
+      - sliding_window_moving_average:
+          window_size: 6
+          send_every: 1
+      - round: 1
+
+  - platform: dallas_temp
+    one_wire_id: dallas_hub
+    address: ${dallas_d_addr}
+    name: "BDA Temperature Sensor 4"
+    id: bda_temp_sensor_4
+    update_interval: ${dallas_update_period}
+    filters:
+      - lambda: return x + id(cal_offset_4);
+      - sliding_window_moving_average:
+          window_size: 6
+          send_every: 1
+      - round: 1
+
+  - platform: dallas_temp
+    one_wire_id: dallas_hub
+    address: ${dallas_e_addr}
+    name: "BDA Temperature Sensor 5"
+    id: bda_temp_sensor_5
+    update_interval: ${dallas_update_period}
+    filters:
+      - lambda: return x + id(cal_offset_5);
+      - sliding_window_moving_average:
+          window_size: 6
+          send_every: 1
+      - round: 1
+
+  - platform: dallas_temp
+    one_wire_id: dallas_hub
+    address: ${dallas_f_addr}
+    name: "BDA Temperature Sensor 6"
+    id: bda_temp_sensor_6
+    update_interval: ${dallas_update_period}
+    filters:
+      - lambda: return x + id(cal_offset_6);
+      - sliding_window_moving_average:
+          window_size: 6
+          send_every: 1
+      - round: 1
+
+  - platform: dallas_temp
+    one_wire_id: dallas_hub
+    address: ${dallas_g_addr}
+    name: "BDA Temperature Sensor 7"
+    id: bda_temp_sensor_7
+    update_interval: ${dallas_update_period}
+    filters:
+      - lambda: return x + id(cal_offset_7);
+      - sliding_window_moving_average:
+          window_size: 6
+          send_every: 1
+      - round: 1
+
+  - platform: dallas_temp
+    one_wire_id: dallas_hub
+    address: ${dallas_h_addr}
+    name: "BDA Temperature Sensor 8"
+    id: bda_temp_sensor_8
+    update_interval: ${dallas_update_period}
+    filters:
+      - lambda: return x + id(cal_offset_8);
+      - sliding_window_moving_average:
+          window_size: 6
+          send_every: 1
+      - round: 1

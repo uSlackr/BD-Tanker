@@ -1,0 +1,935 @@
+esphome:
+  name: "brew-control"
+  friendly_name: BC-2
+
+esp32:
+  board: esp32-s3-devkitc-1
+  framework:
+    type: esp-idf
+
+# Enable logging
+logger:
+
+# Enable Home Assistant API
+api:
+  encryption:
+    key: "ITD6Ax+F/Y2UgRH+IYwUThyo0KNBhO8x9wuJjF3SPRM="
+
+ota:
+  - platform: esphome
+    password: "712e7b92a884be9a0c537de849d8f876"
+
+# wifi:
+#   ssid: !secret wifi_ssid
+#   password: !secret wifi_password
+
+  # Enable fallback hotspot (captive portal) in case wifi connection fails
+  # ap:
+  #   ssid: "brew-control Fallback Hotspot"
+  #   password: "QNq5T7Duj7ql"
+ethernet:
+  type: W5500
+  clk_pin: GPIO1
+  mosi_pin: GPIO2
+  miso_pin: GPIO41
+  cs_pin: GPIO42
+  interrupt_pin: GPIO43
+  reset_pin: GPIO44
+#captive_portal:
+web_server:
+  version: 3
+
+button:
+  - platform: restart
+    name: "Restart"
+
+i2c:
+   - id: bus_a
+     sda: 8
+     scl: 18
+     scan: true
+     frequency: 400kHz
+################################################
+one_wire:
+  - platform: gpio
+  # Serial expansion RX
+    pin: 47
+    id: one_wire_1
+  #note: pull-up resistor on board!
+################################################
+udp:
+packet_transport:
+  id: pt_1
+  platform: udp
+  update_interval: 5s
+  providers:
+    - name: bd-remote-a
+      encryption: !secret bd_udp_enc
+    - name: bd-remote-b
+      encryption: !secret bd_udp_enc
+    - name: bd-remote-c
+      encryption: !secret bd_udp_enc
+
+################################################
+font:
+  - file: "gfonts://Roboto"
+    id: roboto_20
+    size: 20
+  - file: "gfonts://Roboto"
+    id: roboto_14
+    size: 14
+
+display:
+  - platform: ssd1306_i2c
+    i2c_id: bus_a
+    model: "SSD1306 128x64"
+    rotation: 180
+    address: 0x3C
+    lambda: |-
+      it.printf(0, 0, id(roboto_20), "BruDaddy");
+      it.printf(0, 45, id(roboto_14), "BGS Tanker");
+
+#########################################################
+pcf8574:
+  - id: 'pcf8574_hub_in_1'  # for input channel 1-16
+    i2c_id: bus_a
+    address: 0x22
+    pcf8575: true
+
+  - id: 'pcf8574_hub_in_out_1'  # for digital input channel 17-24 & ouptut 1-8
+    i2c_id: bus_a
+    address: 0x25
+    pcf8575: true
+
+  - id: 'pcf8574_hub_out_1'  # for output channel 9-24
+    i2c_id: bus_a
+    address: 0x24
+    pcf8575: true
+
+binary_sensor:
+  - platform: gpio
+    name: "BruDaddy 24V Power Fault"
+    id: brudaddy_24v_power_fault
+    device_class: problem
+    pin:
+      number: GPIO48
+      mode:
+        input: true
+        pullup: true
+      inverted: false
+
+  - platform: gpio
+    name: "b24-input01"
+    id: "b24_input01"
+    pin:
+      pcf8574: pcf8574_hub_in_1
+      number: 8
+      mode: INPUT
+      inverted: true
+
+
+  - platform: gpio
+    name: "b24-input02"
+    id: "b24_input02"
+    pin:
+      pcf8574: pcf8574_hub_in_1
+      number: 9
+      mode: INPUT
+      inverted: true
+
+
+  - platform: gpio
+    name: "b24-input03"
+    id: "b24_input03"
+    pin:
+      pcf8574: pcf8574_hub_in_1
+      number: 10
+      mode: INPUT
+      inverted: true
+
+
+  - platform: gpio
+    name: "b24-input04"
+    id: "b24_input04"
+    pin:
+      pcf8574: pcf8574_hub_in_1
+      number: 11
+      mode: INPUT
+      inverted: true
+
+
+  - platform: gpio
+    name: "b24-input05"
+    id: "b24_input05"
+    pin:
+      pcf8574: pcf8574_hub_in_1
+      number: 12
+      mode: INPUT
+      inverted: true
+
+
+  - platform: gpio
+    name: "b24-input06"
+    id: "b24_input06"
+    pin:
+      pcf8574: pcf8574_hub_in_1
+      number: 13
+      mode: INPUT
+      inverted: true
+
+
+  - platform: gpio
+    name: "b24-input07"
+    id: "b24_input07"
+    pin:
+      pcf8574: pcf8574_hub_in_1
+      number: 14
+      mode: INPUT
+      inverted: true
+
+  - platform: gpio
+    name: "b24-input08"
+    id: "b24_input08"
+    pin:
+      pcf8574: pcf8574_hub_in_1
+      number: 15
+      mode: INPUT
+      inverted: true
+
+  - platform: gpio
+    name: "b24-input09"
+    id: "b24_input09"
+    pin:
+      pcf8574: pcf8574_hub_in_1
+      number: 0
+      mode: INPUT
+      inverted: true
+
+
+  - platform: gpio
+    name: "b24-input10"
+    id: "b24_input10"
+    pin:
+      pcf8574: pcf8574_hub_in_1
+      number: 1
+      mode: INPUT
+      inverted: true
+
+
+  - platform: gpio
+    name: "b24-input11"
+    id: "b24_input11"
+    pin:
+      pcf8574: pcf8574_hub_in_1
+      number: 2
+      mode: INPUT
+      inverted: true
+
+
+  - platform: gpio
+    name: "b24-input12"
+    id: "b24_input12"
+    pin:
+      pcf8574: pcf8574_hub_in_1
+      number: 3
+      mode: INPUT
+      inverted: true
+
+
+  - platform: gpio
+    name: "b24-input13"
+    id: "b24_input13"
+    pin:
+      pcf8574: pcf8574_hub_in_1
+      number: 4
+      mode: INPUT
+      inverted: true
+
+
+  - platform: gpio
+    name: "b24-input14"
+    id: "b24_input14"
+    pin:
+      pcf8574: pcf8574_hub_in_1
+      number: 5
+      mode: INPUT
+      inverted: true
+
+
+  - platform: gpio
+    name: "b24-input15"
+    id: "b24_input15"
+    pin:
+      pcf8574: pcf8574_hub_in_1
+      number: 6
+      mode: INPUT
+      inverted: true
+
+
+  - platform: gpio
+    name: "b24-input16"
+    id: "b24_input16"
+    pin:
+      pcf8574: pcf8574_hub_in_1
+      number: 7
+      mode: INPUT
+      inverted: true
+
+  - platform: gpio
+    name: "b24-input17"
+    id: "b24_input17"
+    pin:
+      pcf8574: pcf8574_hub_in_out_1
+      number: 0
+      mode: INPUT
+      inverted: true
+
+  - platform: gpio
+    name: "b24-input18"
+    id: "b24_input18"
+    pin:
+      pcf8574: pcf8574_hub_in_out_1
+      number: 1
+      mode: INPUT
+      inverted: true
+
+  - platform: gpio
+    name: "b24-input19"
+    id: "b24_input19"
+    pin:
+      pcf8574: pcf8574_hub_in_out_1
+      number: 2
+      mode: INPUT
+      inverted: true
+
+  - platform: gpio
+    name: "b24-input20"
+    id: "b24_input20"
+    pin:
+      pcf8574: pcf8574_hub_in_out_1
+      number: 3
+      mode: INPUT
+      inverted: true
+
+  - platform: gpio
+    name: "b24-input21"
+    id: "b24_input21"
+    pin:
+      pcf8574: pcf8574_hub_in_out_1
+      number: 4
+      mode: INPUT
+      inverted: true
+
+  - platform: gpio
+    name: "b24-input22"
+    id: "b24_input22"
+    pin:
+      pcf8574: pcf8574_hub_in_out_1
+      number: 5
+      mode: INPUT
+      inverted: true
+
+  - platform: gpio
+    name: "b24-input23"
+    id: "b24_input23"
+    pin:
+      pcf8574: pcf8574_hub_in_out_1
+      number: 6
+      mode: INPUT
+      inverted: true
+
+  - platform: gpio
+    name: "b24-input24"
+    id: "b24_input24"
+    pin:
+      pcf8574: pcf8574_hub_in_out_1
+      number: 7
+      mode: INPUT
+      inverted: true
+
+##pull-up resistance on PCB
+  # - platform: gpio
+  #   name: "b24-W1-io48"
+  #   pin:
+  #     number: 48
+  #     inverted: true
+
+#  - platform: gpio
+    # name: "b24-W1-io47"
+    # pin:
+    #   number: 47
+    #   inverted: true
+
+  # - platform: gpio
+  #   name: "b24-W1-io40"
+  
+  #   pin:
+  #     number: 40
+  #     inverted: true
+
+  # - platform: gpio
+  #   name: "b24-W1-io7"
+  #   pin:
+  #     number: 7
+  #     inverted: true
+## without resistance on PCB
+  - platform: gpio
+    name: "b24-W1-io13"
+    pin:
+      number: 13
+      inverted: false
+
+  - platform: gpio
+    name: "b24-W1-io14"
+    pin:
+      number: 14
+      inverted:  false
+
+  - platform: gpio
+    name: "b24-W1-io21"
+    pin:
+      number: 21
+      inverted:  false
+
+  - platform: gpio
+    name: "b24-W1-io0"
+    pin:
+      number: 0
+      inverted:  false
+
+switch:
+  - platform: gpio
+    name: "valve-f01"
+    id: "valve_f01"
+    pin:
+      pcf8574: pcf8574_hub_in_out_1
+      number: 8
+      mode: OUTPUT
+      inverted: true
+
+  - platform: gpio
+    name: "valve-f02"
+    id: "valve_f02"
+    pin:
+      pcf8574: pcf8574_hub_in_out_1
+      number: 9
+      mode: OUTPUT
+      inverted: true
+
+  - platform: gpio
+    name: "valve-f03"
+    id: "valve_f03"
+    pin:
+      pcf8574: pcf8574_hub_in_out_1
+      number: 10
+      mode: OUTPUT
+      inverted: true
+
+  - platform: gpio
+    name: "valve-f04"
+    id: "valve_f04"
+    pin:
+      pcf8574: pcf8574_hub_in_out_1
+      number: 11
+      mode: OUTPUT
+      inverted: true
+
+  - platform: gpio
+    name: "valve-f05"
+    id: "valve_f05"
+    pin:
+      pcf8574: pcf8574_hub_in_out_1
+      number: 12
+      mode: OUTPUT
+      inverted: true
+
+  - platform: gpio
+    name: "valve-f06"
+    id: "valve_f06"
+    pin:
+      pcf8574: pcf8574_hub_in_out_1
+      number: 13
+      mode: OUTPUT
+      inverted: true
+
+  - platform: gpio
+    name: "valve-f07"
+    id: "valve_f07"
+    pin:
+      pcf8574: pcf8574_hub_in_out_1
+      number: 14
+      mode: OUTPUT
+      inverted: true
+
+  - platform: gpio
+    name: "valve-f08"
+    id: "valve_f08"
+    pin:
+      pcf8574: pcf8574_hub_in_out_1
+      number: 15
+      mode: OUTPUT
+      inverted: true
+
+  - platform: gpio
+    name: "valve-f09"
+    id: valve_f09
+    pin:
+      pcf8574: pcf8574_hub_out_1
+      number: 0
+      mode: OUTPUT
+      inverted: true
+
+  - platform: gpio
+    name: "valve-f10"
+    id: valve_f10
+    pin:
+      pcf8574: pcf8574_hub_out_1
+      number: 1
+      mode: OUTPUT
+      inverted: true
+
+  - platform: gpio
+    name: "valve-f11"
+    id: valve_f11
+    pin:
+      pcf8574: pcf8574_hub_out_1
+      number: 2
+      mode: OUTPUT
+      inverted: true
+
+  - platform: gpio
+    name: "valve-f12"
+    id: valve_f12
+    pin:
+      pcf8574: pcf8574_hub_out_1
+      number: 3
+      mode: OUTPUT
+      inverted: true
+
+  - platform: gpio
+    name: "valve-f13"
+    id: valve_f13
+    pin:
+      pcf8574: pcf8574_hub_out_1
+      number: 4
+      mode: OUTPUT
+      inverted: true
+
+  - platform: gpio
+    name: "valve-f14"
+    id: valve_f14
+    pin:
+      pcf8574: pcf8574_hub_out_1
+      number: 5
+      mode: OUTPUT
+      inverted: true
+
+  - platform: gpio
+    name: "valve-f15"
+    id: valve_f15
+    pin:
+      pcf8574: pcf8574_hub_out_1
+      number: 6
+      mode: OUTPUT
+      inverted: true
+
+  - platform: gpio
+    name: "valve-f16"
+    id: valve_f16
+    pin:
+      pcf8574: pcf8574_hub_out_1
+      number: 7
+      mode: OUTPUT
+      inverted: true
+
+  - platform: gpio
+    name: "valve-f17"
+    id: valve_f17
+    pin:
+      pcf8574: pcf8574_hub_out_1
+      number: 8
+      mode: OUTPUT
+      inverted: true
+
+  - platform: gpio
+    name: "valve-f18"
+    id: valve_f18
+    pin:
+      pcf8574: pcf8574_hub_out_1
+      number: 9
+      mode: OUTPUT
+      inverted: true
+
+  - platform: gpio
+    name: "valve-f19"
+    id: valve_f19
+    pin:
+      pcf8574: pcf8574_hub_out_1
+      number: 10
+      mode: OUTPUT
+      inverted: true
+
+  # - platform: gpio
+  #   name: "valve-f20"
+  #   id: valve_f20
+  #   pin:
+  #     pcf8574: pcf8574_hub_out_1
+  #     number: 11
+  #     mode: OUTPUT
+  #     inverted: true
+
+  # - platform: gpio
+  #   name: "valve-f21"
+  #   id: valve_f21
+  #   pin:
+  #     pcf8574: pcf8574_hub_out_1
+  #     number: 12
+  #     mode: OUTPUT
+  #     inverted: true
+
+  # - platform: gpio
+  #   name: "valve-f22"
+  #   id: valve_f22
+  #   pin:
+  #     pcf8574: pcf8574_hub_out_1
+  #     number: 13
+  #     mode: OUTPUT
+  #     inverted: true
+
+  # - platform: gpio
+  #   name: "valve-f23"
+  #   id: valve_f23
+  #   pin:
+  #     pcf8574: pcf8574_hub_out_1
+  #     number: 14
+  #     mode: OUTPUT
+  #     inverted: true
+
+  # - platform: gpio
+  #   name: "valve-f24"
+  #   id: valve_f24
+  #   pin:
+  #     pcf8574: pcf8574_hub_out_1
+  #     number: 15
+  #     mode: OUTPUT
+  #     inverted: true
+
+sensor:
+  - platform: packet_transport
+    provider: bd-probe-1
+    id: sb1_temp_f1
+    remote_id: bd1_temp_sensor_1
+    name: sb1_temp_f1
+    internal: False
+  - platform: packet_transport
+    provider: bd-probe-1
+    id: sb1_temp_f2
+    name: sb1_temp_f2
+    remote_id: bd1_temp_sensor_2
+    internal: False
+  - platform: packet_transport
+    provider: bd-probe-1
+    id: sb1_temp_f3
+    name: sb1_temp_f3
+    internal: False
+    remote_id: bd1_temp_sensor_3
+  - platform: packet_transport
+    provider: bd-probe-1
+    id: sb1_temp_f4
+    remote_id: bd1_temp_sensor_4
+    name: sb1_temp_f4
+    internal: False
+  - platform: packet_transport
+    provider: bd-probe-1
+    id: sb1_temp_b1
+    name: sb1_temp_b1
+    remote_id: bd1_temp_sensor_5
+    internal: False
+  - platform: packet_transport
+    provider: bd-probe-1
+    name: sb1_temp_b2
+    id: sb1_temp_b2
+    remote_id: bd1_temp_sensor_6
+    internal: False
+
+############# 
+  - platform: packet_transport
+    provider: bd-probe-2
+    id: sb2_temp_f1
+    remote_id: bd2_temp_sensor_1
+    name: sb2_temp_f1
+    internal: False
+  - platform: packet_transport
+    provider: bd-probe-1
+    id: sb2_temp_f2
+    name: sb2_temp_f2
+    remote_id: bd2_temp_sensor_2
+    internal: False
+  - platform: packet_transport
+    provider: bd-probe-1
+    id: sb2_temp_f3
+    name: sb2_temp_f3
+    internal: False
+    remote_id: bd2_temp_sensor_3
+  - platform: packet_transport
+    provider: bd-probe-1
+    id: sb2_temp_f4
+    remote_id: bd2_temp_sensor_4
+    name: sb2_temp_f4
+    internal: False
+  - platform: packet_transport
+    provider: bd-probe-1
+    id: sb2_temp_b1
+    name: sb2_temp_b1
+    remote_id: bd2_temp_sensor_5
+    internal: False
+  - platform: packet_transport
+    provider: bd-probe-1
+    name: sb2_temp_b2
+    id: sb2_temp_b2
+    remote_id: bd2_temp_sensor_6
+    internal: False
+    
+############# 
+  - platform: packet_transport
+    provider: bd-probe-3
+    id: sb3_temp_f1
+    remote_id: bd3_temp_sensor_1
+    name: sb3_temp_f1
+    internal: False
+  - platform: packet_transport
+    provider: bd-probe-3
+    id: sb3_temp_f2
+    name: sb3_temp_f2
+    remote_id: bd3_temp_sensor_2
+    internal: False
+  - platform: packet_transport
+    provider: bd-probe-3
+    id: sb3_temp_f3
+    name: sb3_temp_f3
+    internal: False
+    remote_id: bd3_temp_sensor_3
+  - platform: packet_transport
+    provider: bd-probe-3
+    id: sb3_temp_f4
+    remote_id: bd3_temp_sensor_4
+    name: sb3_temp_f4
+    internal: False
+  - platform: packet_transport
+    provider: bd-probe-3
+    id: sb3_temp_b1
+    name: sb3_temp_b1
+    remote_id: bd3_temp_sensor_5
+    internal: False
+  - platform: packet_transport
+    provider: bd-probe-3
+    name: sb3_temp_b2
+    id: sb3_temp_b2
+    remote_id: bd3_temp_sensor_6
+    internal: False
+
+
+  - platform: dallas_temp
+    one_wire_id: one_wire_1
+    #address: 0x47000000be756828
+    address: 0xd6000000ba10c828
+    name: "Enclosure Temp"
+    id: enclosure_temp
+    update_interval: 5.0s
+    unit_of_measurement: '°C'
+    filters:
+      - median:
+          window_size: 3
+          send_every: 2
+          send_first_at: 2
+      - round: 1
+
+climate:
+    #F1
+  - platform: thermostat
+    name: Ferm_1_Ctrl
+    visual:
+      min_temperature: 30 °F
+      max_temperature: 180 °F
+      temperature_step: .1 °F
+    sensor: sb1_temp_f1
+    min_cooling_off_time: 60s
+    min_cooling_run_time: 30s
+    min_idle_time: 60s
+    cool_deadband: 0.2 
+    cool_overrun: 0.0 
+    cool_action:
+      - switch.turn_on: valve_f01
+    idle_action:
+      - switch.turn_off: valve_f01
+    default_preset: "off"
+    preset:
+      - name: ferment (65)
+        default_target_temperature_high: 65 °F
+        mode: cool
+      - name: crash
+        default_target_temperature_high: 35 °F
+        mode: cool
+      - name: clean
+        default_target_temperature_high: 180 °F
+        mode: cool
+      - name: "off"
+        default_target_temperature_high: 70 °F
+        mode: "OFF"
+    #F2
+  - platform: thermostat
+    name: Ferm_2_Ctrl
+    visual:
+      min_temperature: 30 °F
+      max_temperature: 180 °F
+      temperature_step: .1 °F
+    sensor: sb1_temp_f2
+    min_cooling_off_time: 60s
+    min_cooling_run_time: 30s
+    min_idle_time: 60s
+    cool_deadband: 0.2 
+    cool_overrun: 0.0 
+    cool_action:
+      - switch.turn_on: valve_f02
+    idle_action:
+      - switch.turn_off: valve_f02
+    default_preset: "off"
+    preset:
+      - name: ferment (65)
+        default_target_temperature_high: 65 °F
+        mode: cool
+      - name: crash
+        default_target_temperature_high: 35 °F
+        mode: cool
+      - name: clean
+        default_target_temperature_high: 180 °F
+        mode: cool
+      - name: "off"
+        default_target_temperature_high: 70 °F
+        mode: "OFF"
+
+    #F3
+  - platform: thermostat
+    name: Ferm_3_Ctrl
+    visual:
+      min_temperature: 30 °F
+      max_temperature: 180 °F
+      temperature_step: .1 °F
+    sensor: sb1_temp_f3
+    min_cooling_off_time: 60s
+    min_cooling_run_time: 30s
+    min_idle_time: 60s
+    cool_deadband: 0.2 
+    cool_overrun: 0.0 
+    cool_action:
+      - switch.turn_on: valve_f03
+    idle_action:
+      - switch.turn_off: valve_f03
+    default_preset: "off"
+    preset:
+      - name: ferment (65)
+        default_target_temperature_high: 65 °F
+        mode: cool
+      - name: crash
+        default_target_temperature_high: 35 °F
+        mode: cool
+      - name: clean
+        default_target_temperature_high: 180 °F
+        mode: cool
+      - name: "off"
+        default_target_temperature_high: 70 °F
+        mode: "OFF"
+    #F4
+  - platform: thermostat
+    name: Ferm_4_Ctrl
+    visual:
+      min_temperature: 30 °F
+      max_temperature: 180 °F
+      temperature_step: .1 °F
+    sensor: sb1_temp_f4
+    min_cooling_off_time: 60s
+    min_cooling_run_time: 30s
+    min_idle_time: 60s
+    cool_deadband: 0.2 
+    cool_overrun: 0.0 
+    cool_action:
+      - switch.turn_on: valve_f04
+    idle_action:
+      - switch.turn_off: valve_f04
+    default_preset: "off"
+    preset:
+      - name: ferment (65)
+        default_target_temperature_high: 65 °F
+        mode: cool
+      - name: crash
+        default_target_temperature_high: 35 °F
+        mode: cool
+      - name: clean
+        default_target_temperature_high: 180 °F
+        mode: cool
+      - name: "off"
+        default_target_temperature_high: 70 °F
+        mode: "OFF"
+    #B1
+  - platform: thermostat
+    name: Brite_1_Ctrl
+    visual:
+      min_temperature: 30 °F
+      max_temperature: 180 °F
+      temperature_step: .1 °F
+    sensor: sb1_temp_b1
+    min_cooling_off_time: 60s
+    min_cooling_run_time: 30s
+    min_idle_time: 60s
+    cool_deadband: 0.2 
+    cool_overrun: 0.0 
+    cool_action:
+      - switch.turn_on: valve_f01
+    idle_action:
+      - switch.turn_off: valve_f01
+    default_preset: "off"
+    preset:
+      - name: ferment (65)
+        default_target_temperature_high: 65 °F
+        mode: cool
+      - name: crash
+        default_target_temperature_high: 35 °F
+        mode: cool
+      - name: clean
+        default_target_temperature_high: 180 °F
+        mode: cool
+      - name: "off"
+        default_target_temperature_high: 70 °F
+        mode: "OFF"
+    #B2
+  - platform: thermostat
+    name: Brite_2_Ctrl
+    visual:
+      min_temperature: 30 °F
+      max_temperature: 180 °F
+      temperature_step: .1 °F
+    sensor: sb1_temp_b2
+    min_cooling_off_time: 60s
+    min_cooling_run_time: 30s
+    min_idle_time: 60s
+    cool_deadband: 0.2 
+    cool_overrun: 0.0 
+    cool_action:
+      - switch.turn_on: valve_f02
+    idle_action:
+      - switch.turn_off: valve_f02
+    default_preset: "off"
+    preset:
+      - name: ferment (65)
+        default_target_temperature_high: 65 °F
+        mode: cool
+      - name: crash
+        default_target_temperature_high: 35 °F
+        mode: cool
+      - name: clean
+        default_target_temperature_high: 180 °F
+        mode: cool
+      - name: "off"
+        default_target_temperature_high: 70 °F
+        mode: "OFF"
+

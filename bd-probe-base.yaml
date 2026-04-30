@@ -1,0 +1,70 @@
+substitutions:
+  devicename: bd-probe
+  friendly_name: BD-probe
+  logger_level: DEBUG
+  web_port: "80"
+  one_wire_pin: "16"
+  dallas_update_period: "5s"
+  packet_update_period: "5s"
+
+# esphome:
+#   name: ${devicename}
+#   friendly_name: ${friendly_name}
+
+esp32:
+  variant: esp32s3
+  flash_size: 16MB
+  framework:
+    type: esp-idf
+
+psram:
+  mode: octal
+  speed: 80MHz
+
+api:
+  encryption:
+    key: !secret bd_api_encryption_key
+
+ota:
+  - platform: esphome
+    password: !secret bd_ota_password
+
+web_server:
+  version: 3
+  port: ${web_port}
+  auth:
+    username: !secret web_user
+    password: !secret web_pw
+
+logger:
+  level: ${logger_level}
+
+ethernet:
+  type: W5500
+  mosi_pin: GPIO11
+  miso_pin: GPIO12
+  clk_pin: GPIO13
+  cs_pin: GPIO14
+  reset_pin: GPIO9
+  interrupt_pin: GPIO10
+
+esp32_ble_tracker:
+  scan_parameters:
+    interval: 1100ms
+    window: 1100ms
+    active: true
+
+bluetooth_proxy:
+  active: true
+
+udp:
+
+one_wire:
+  - platform: gpio
+    pin: ${one_wire_pin}
+    id: dallas_hub
+
+button:
+  - platform: restart
+    name: Restart
+    id: restart_button
