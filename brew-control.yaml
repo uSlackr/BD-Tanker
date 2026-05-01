@@ -2,6 +2,9 @@ esphome:
   name: "brew-control"
   friendly_name: BC-2
 
+packages:
+  site_settings: !include site-setting.yaml
+
 esp32:
   board: esp32-s3-devkitc-1
   framework:
@@ -615,120 +618,113 @@ switch:
   #     inverted: true
 
 sensor:
+  # Remote A sensors (bd-remote-a → bda_temp_sensor_*)
   - platform: packet_transport
-    provider: bd-probe-1
+    provider: bd-remote-a
     id: sb1_temp_f1
-    remote_id: bd1_temp_sensor_1
-    name: sb1_temp_f1
+    remote_id: bda_temp_sensor_1
+    name: "${tank_a1_name} Temp"
     internal: False
   - platform: packet_transport
-    provider: bd-probe-1
+    provider: bd-remote-a
     id: sb1_temp_f2
-    name: sb1_temp_f2
-    remote_id: bd1_temp_sensor_2
+    name: "${tank_a2_name} Temp"
+    remote_id: bda_temp_sensor_2
     internal: False
   - platform: packet_transport
-    provider: bd-probe-1
+    provider: bd-remote-a
     id: sb1_temp_f3
-    name: sb1_temp_f3
+    name: "${tank_a3_name} Temp"
     internal: False
-    remote_id: bd1_temp_sensor_3
+    remote_id: bda_temp_sensor_3
   - platform: packet_transport
-    provider: bd-probe-1
+    provider: bd-remote-a
     id: sb1_temp_f4
-    remote_id: bd1_temp_sensor_4
-    name: sb1_temp_f4
+    remote_id: bda_temp_sensor_4
+    name: "${tank_a4_name} Temp"
     internal: False
   - platform: packet_transport
-    provider: bd-probe-1
+    provider: bd-remote-a
     id: sb1_temp_b1
-    name: sb1_temp_b1
-    remote_id: bd1_temp_sensor_5
+    name: "${tank_a5_name} Temp"
+    remote_id: bda_temp_sensor_5
     internal: False
   - platform: packet_transport
-    provider: bd-probe-1
-    name: sb1_temp_b2
+    provider: bd-remote-a
+    name: "${tank_a6_name} Temp"
     id: sb1_temp_b2
-    remote_id: bd1_temp_sensor_6
+    remote_id: bda_temp_sensor_6
     internal: False
 
-############# 
+  # Remote B sensors (bd-remote-b → bdb_temp_sensor_*)
   - platform: packet_transport
-    provider: bd-probe-2
+    provider: bd-remote-b
     id: sb2_temp_f1
-    remote_id: bd2_temp_sensor_1
-    name: sb2_temp_f1
+    remote_id: bdb_temp_sensor_1
+    name: "${tank_b1_name} Temp"
     internal: False
   - platform: packet_transport
-    provider: bd-probe-1
+    provider: bd-remote-b
     id: sb2_temp_f2
-    name: sb2_temp_f2
-    remote_id: bd2_temp_sensor_2
+    name: "${tank_b2_name} Temp"
+    remote_id: bdb_temp_sensor_2
     internal: False
   - platform: packet_transport
-    provider: bd-probe-1
+    provider: bd-remote-b
     id: sb2_temp_f3
-    name: sb2_temp_f3
+    name: "${tank_b3_name} Temp"
     internal: False
-    remote_id: bd2_temp_sensor_3
+    remote_id: bdb_temp_sensor_3
   - platform: packet_transport
-    provider: bd-probe-1
+    provider: bd-remote-b
     id: sb2_temp_f4
-    remote_id: bd2_temp_sensor_4
-    name: sb2_temp_f4
+    remote_id: bdb_temp_sensor_4
+    name: "${tank_b4_name} Temp"
     internal: False
   - platform: packet_transport
-    provider: bd-probe-1
+    provider: bd-remote-b
     id: sb2_temp_b1
-    name: sb2_temp_b1
-    remote_id: bd2_temp_sensor_5
+    name: "${tank_b5_name} Temp"
+    remote_id: bdb_temp_sensor_5
     internal: False
   - platform: packet_transport
-    provider: bd-probe-1
-    name: sb2_temp_b2
+    provider: bd-remote-b
+    name: "${tank_b6_name} Temp"
     id: sb2_temp_b2
-    remote_id: bd2_temp_sensor_6
+    remote_id: bdb_temp_sensor_6
     internal: False
-    
-############# 
   - platform: packet_transport
-    provider: bd-probe-3
+    provider: bd-remote-b
+    name: "${tank_b7_name} Temp"
+    id: sb2_temp_b3
+    remote_id: bdb_temp_sensor_7
+    internal: False
+
+  # Remote C sensors (bd-remote-c → bdc_temp_sensor_*)
+  - platform: packet_transport
+    provider: bd-remote-c
     id: sb3_temp_f1
-    remote_id: bd3_temp_sensor_1
-    name: sb3_temp_f1
+    remote_id: bdc_temp_sensor_1
+    name: "${tank_c1_name} Temp"
     internal: False
   - platform: packet_transport
-    provider: bd-probe-3
+    provider: bd-remote-c
     id: sb3_temp_f2
-    name: sb3_temp_f2
-    remote_id: bd3_temp_sensor_2
+    name: "${tank_c2_name} Temp"
+    remote_id: bdc_temp_sensor_2
     internal: False
   - platform: packet_transport
-    provider: bd-probe-3
+    provider: bd-remote-c
     id: sb3_temp_f3
-    name: sb3_temp_f3
+    name: "${tank_c3_name} Temp"
     internal: False
-    remote_id: bd3_temp_sensor_3
+    remote_id: bdc_temp_sensor_3
   - platform: packet_transport
-    provider: bd-probe-3
+    provider: bd-remote-c
     id: sb3_temp_f4
-    remote_id: bd3_temp_sensor_4
-    name: sb3_temp_f4
+    remote_id: bdc_temp_sensor_4
+    name: "${tank_c4_name} Temp"
     internal: False
-  - platform: packet_transport
-    provider: bd-probe-3
-    id: sb3_temp_b1
-    name: sb3_temp_b1
-    remote_id: bd3_temp_sensor_5
-    internal: False
-  - platform: packet_transport
-    provider: bd-probe-3
-    name: sb3_temp_b2
-    id: sb3_temp_b2
-    remote_id: bd3_temp_sensor_6
-    internal: False
-
-
   - platform: dallas_temp
     one_wire_id: one_wire_1
     #address: 0x47000000be756828
@@ -745,54 +741,23 @@ sensor:
       - round: 1
 
 climate:
-    #F1
   - platform: thermostat
-    name: Ferm_1_Ctrl
+    name: "${tank_a1_name} Ctrl"
+    id: tank_a1_ctrl
     visual:
       min_temperature: 30 °F
       max_temperature: 180 °F
       temperature_step: .1 °F
-    sensor: sb1_temp_f1
+    sensor: ${tank_a1_sensor_id}
     min_cooling_off_time: 60s
     min_cooling_run_time: 30s
     min_idle_time: 60s
-    cool_deadband: 0.2 
-    cool_overrun: 0.0 
+    cool_deadband: 0.2
+    cool_overrun: 0.0
     cool_action:
-      - switch.turn_on: valve_f01
+      - switch.turn_on: ${tank_a1_valve_id}
     idle_action:
-      - switch.turn_off: valve_f01
-    default_preset: "off"
-    preset:
-      - name: ferment (65)
-        default_target_temperature_high: 65 °F
-        mode: cool
-      - name: crash
-        default_target_temperature_high: 35 °F
-        mode: cool
-      - name: clean
-        default_target_temperature_high: 180 °F
-        mode: cool
-      - name: "off"
-        default_target_temperature_high: 70 °F
-        mode: "OFF"
-    #F2
-  - platform: thermostat
-    name: Ferm_2_Ctrl
-    visual:
-      min_temperature: 30 °F
-      max_temperature: 180 °F
-      temperature_step: .1 °F
-    sensor: sb1_temp_f2
-    min_cooling_off_time: 60s
-    min_cooling_run_time: 30s
-    min_idle_time: 60s
-    cool_deadband: 0.2 
-    cool_overrun: 0.0 
-    cool_action:
-      - switch.turn_on: valve_f02
-    idle_action:
-      - switch.turn_off: valve_f02
+      - switch.turn_off: ${tank_a1_valve_id}
     default_preset: "off"
     preset:
       - name: ferment (65)
@@ -808,116 +773,23 @@ climate:
         default_target_temperature_high: 70 °F
         mode: "OFF"
 
-    #F3
   - platform: thermostat
-    name: Ferm_3_Ctrl
+    name: "${tank_a2_name} Ctrl"
+    id: tank_a2_ctrl
     visual:
       min_temperature: 30 °F
       max_temperature: 180 °F
       temperature_step: .1 °F
-    sensor: sb1_temp_f3
+    sensor: ${tank_a2_sensor_id}
     min_cooling_off_time: 60s
     min_cooling_run_time: 30s
     min_idle_time: 60s
-    cool_deadband: 0.2 
-    cool_overrun: 0.0 
+    cool_deadband: 0.2
+    cool_overrun: 0.0
     cool_action:
-      - switch.turn_on: valve_f03
+      - switch.turn_on: ${tank_a2_valve_id}
     idle_action:
-      - switch.turn_off: valve_f03
-    default_preset: "off"
-    preset:
-      - name: ferment (65)
-        default_target_temperature_high: 65 °F
-        mode: cool
-      - name: crash
-        default_target_temperature_high: 35 °F
-        mode: cool
-      - name: clean
-        default_target_temperature_high: 180 °F
-        mode: cool
-      - name: "off"
-        default_target_temperature_high: 70 °F
-        mode: "OFF"
-    #F4
-  - platform: thermostat
-    name: Ferm_4_Ctrl
-    visual:
-      min_temperature: 30 °F
-      max_temperature: 180 °F
-      temperature_step: .1 °F
-    sensor: sb1_temp_f4
-    min_cooling_off_time: 60s
-    min_cooling_run_time: 30s
-    min_idle_time: 60s
-    cool_deadband: 0.2 
-    cool_overrun: 0.0 
-    cool_action:
-      - switch.turn_on: valve_f04
-    idle_action:
-      - switch.turn_off: valve_f04
-    default_preset: "off"
-    preset:
-      - name: ferment (65)
-        default_target_temperature_high: 65 °F
-        mode: cool
-      - name: crash
-        default_target_temperature_high: 35 °F
-        mode: cool
-      - name: clean
-        default_target_temperature_high: 180 °F
-        mode: cool
-      - name: "off"
-        default_target_temperature_high: 70 °F
-        mode: "OFF"
-    #B1
-  - platform: thermostat
-    name: Brite_1_Ctrl
-    visual:
-      min_temperature: 30 °F
-      max_temperature: 180 °F
-      temperature_step: .1 °F
-    sensor: sb1_temp_b1
-    min_cooling_off_time: 60s
-    min_cooling_run_time: 30s
-    min_idle_time: 60s
-    cool_deadband: 0.2 
-    cool_overrun: 0.0 
-    cool_action:
-      - switch.turn_on: valve_f01
-    idle_action:
-      - switch.turn_off: valve_f01
-    default_preset: "off"
-    preset:
-      - name: ferment (65)
-        default_target_temperature_high: 65 °F
-        mode: cool
-      - name: crash
-        default_target_temperature_high: 35 °F
-        mode: cool
-      - name: clean
-        default_target_temperature_high: 180 °F
-        mode: cool
-      - name: "off"
-        default_target_temperature_high: 70 °F
-        mode: "OFF"
-    #B2
-  - platform: thermostat
-    name: Brite_2_Ctrl
-    visual:
-      min_temperature: 30 °F
-      max_temperature: 180 °F
-      temperature_step: .1 °F
-    sensor: sb1_temp_b2
-    min_cooling_off_time: 60s
-    min_cooling_run_time: 30s
-    min_idle_time: 60s
-    cool_deadband: 0.2 
-    cool_overrun: 0.0 
-    cool_action:
-      - switch.turn_on: valve_f02
-    idle_action:
-      - switch.turn_off: valve_f02
+      - switch.turn_off: ${tank_a2_valve_id}
     default_preset: "off"
     preset:
       - name: ferment (65)
@@ -933,3 +805,482 @@ climate:
         default_target_temperature_high: 70 °F
         mode: "OFF"
 
+  - platform: thermostat
+    name: "${tank_a3_name} Ctrl"
+    id: tank_a3_ctrl
+    visual:
+      min_temperature: 30 °F
+      max_temperature: 180 °F
+      temperature_step: .1 °F
+    sensor: ${tank_a3_sensor_id}
+    min_cooling_off_time: 60s
+    min_cooling_run_time: 30s
+    min_idle_time: 60s
+    cool_deadband: 0.2
+    cool_overrun: 0.0
+    cool_action:
+      - switch.turn_on: ${tank_a3_valve_id}
+    idle_action:
+      - switch.turn_off: ${tank_a3_valve_id}
+    default_preset: "off"
+    preset:
+      - name: ferment (65)
+        default_target_temperature_high: 65 °F
+        mode: cool
+      - name: crash
+        default_target_temperature_high: 35 °F
+        mode: cool
+      - name: clean
+        default_target_temperature_high: 180 °F
+        mode: cool
+      - name: "off"
+        default_target_temperature_high: 70 °F
+        mode: "OFF"
+
+  - platform: thermostat
+    name: "${tank_a4_name} Ctrl"
+    id: tank_a4_ctrl
+    visual:
+      min_temperature: 30 °F
+      max_temperature: 180 °F
+      temperature_step: .1 °F
+    sensor: ${tank_a4_sensor_id}
+    min_cooling_off_time: 60s
+    min_cooling_run_time: 30s
+    min_idle_time: 60s
+    cool_deadband: 0.2
+    cool_overrun: 0.0
+    cool_action:
+      - switch.turn_on: ${tank_a4_valve_id}
+    idle_action:
+      - switch.turn_off: ${tank_a4_valve_id}
+    default_preset: "off"
+    preset:
+      - name: ferment (65)
+        default_target_temperature_high: 65 °F
+        mode: cool
+      - name: crash
+        default_target_temperature_high: 35 °F
+        mode: cool
+      - name: clean
+        default_target_temperature_high: 180 °F
+        mode: cool
+      - name: "off"
+        default_target_temperature_high: 70 °F
+        mode: "OFF"
+
+  - platform: thermostat
+    name: "${tank_a5_name} Ctrl"
+    id: tank_a5_ctrl
+    visual:
+      min_temperature: 30 °F
+      max_temperature: 180 °F
+      temperature_step: .1 °F
+    sensor: ${tank_a5_sensor_id}
+    min_cooling_off_time: 60s
+    min_cooling_run_time: 30s
+    min_idle_time: 60s
+    cool_deadband: 0.2
+    cool_overrun: 0.0
+    cool_action:
+      - switch.turn_on: ${tank_a5_valve_id}
+    idle_action:
+      - switch.turn_off: ${tank_a5_valve_id}
+    default_preset: "off"
+    preset:
+      - name: ferment (65)
+        default_target_temperature_high: 65 °F
+        mode: cool
+      - name: crash
+        default_target_temperature_high: 35 °F
+        mode: cool
+      - name: clean
+        default_target_temperature_high: 180 °F
+        mode: cool
+      - name: "off"
+        default_target_temperature_high: 70 °F
+        mode: "OFF"
+
+  - platform: thermostat
+    name: "${tank_a6_name} Ctrl"
+    id: tank_a6_ctrl
+    visual:
+      min_temperature: 30 °F
+      max_temperature: 180 °F
+      temperature_step: .1 °F
+    sensor: ${tank_a6_sensor_id}
+    min_cooling_off_time: 60s
+    min_cooling_run_time: 30s
+    min_idle_time: 60s
+    cool_deadband: 0.2
+    cool_overrun: 0.0
+    cool_action:
+      - switch.turn_on: ${tank_a6_valve_id}
+    idle_action:
+      - switch.turn_off: ${tank_a6_valve_id}
+    default_preset: "off"
+    preset:
+      - name: ferment (65)
+        default_target_temperature_high: 65 °F
+        mode: cool
+      - name: crash
+        default_target_temperature_high: 35 °F
+        mode: cool
+      - name: clean
+        default_target_temperature_high: 180 °F
+        mode: cool
+      - name: "off"
+        default_target_temperature_high: 70 °F
+        mode: "OFF"
+
+  - platform: thermostat
+    name: "${tank_b1_name} Ctrl"
+    id: tank_b1_ctrl
+    visual:
+      min_temperature: 30 °F
+      max_temperature: 180 °F
+      temperature_step: .1 °F
+    sensor: ${tank_b1_sensor_id}
+    min_cooling_off_time: 60s
+    min_cooling_run_time: 30s
+    min_idle_time: 60s
+    cool_deadband: 0.2
+    cool_overrun: 0.0
+    cool_action:
+      - switch.turn_on: ${tank_b1_valve_id}
+    idle_action:
+      - switch.turn_off: ${tank_b1_valve_id}
+    default_preset: "off"
+    preset:
+      - name: ferment (65)
+        default_target_temperature_high: 65 °F
+        mode: cool
+      - name: crash
+        default_target_temperature_high: 35 °F
+        mode: cool
+      - name: clean
+        default_target_temperature_high: 180 °F
+        mode: cool
+      - name: "off"
+        default_target_temperature_high: 70 °F
+        mode: "OFF"
+
+  - platform: thermostat
+    name: "${tank_b2_name} Ctrl"
+    id: tank_b2_ctrl
+    visual:
+      min_temperature: 30 °F
+      max_temperature: 180 °F
+      temperature_step: .1 °F
+    sensor: ${tank_b2_sensor_id}
+    min_cooling_off_time: 60s
+    min_cooling_run_time: 30s
+    min_idle_time: 60s
+    cool_deadband: 0.2
+    cool_overrun: 0.0
+    cool_action:
+      - switch.turn_on: ${tank_b2_valve_id}
+    idle_action:
+      - switch.turn_off: ${tank_b2_valve_id}
+    default_preset: "off"
+    preset:
+      - name: ferment (65)
+        default_target_temperature_high: 65 °F
+        mode: cool
+      - name: crash
+        default_target_temperature_high: 35 °F
+        mode: cool
+      - name: clean
+        default_target_temperature_high: 180 °F
+        mode: cool
+      - name: "off"
+        default_target_temperature_high: 70 °F
+        mode: "OFF"
+
+  - platform: thermostat
+    name: "${tank_b3_name} Ctrl"
+    id: tank_b3_ctrl
+    visual:
+      min_temperature: 30 °F
+      max_temperature: 180 °F
+      temperature_step: .1 °F
+    sensor: ${tank_b3_sensor_id}
+    min_cooling_off_time: 60s
+    min_cooling_run_time: 30s
+    min_idle_time: 60s
+    cool_deadband: 0.2
+    cool_overrun: 0.0
+    cool_action:
+      - switch.turn_on: ${tank_b3_valve_id}
+    idle_action:
+      - switch.turn_off: ${tank_b3_valve_id}
+    default_preset: "off"
+    preset:
+      - name: ferment (65)
+        default_target_temperature_high: 65 °F
+        mode: cool
+      - name: crash
+        default_target_temperature_high: 35 °F
+        mode: cool
+      - name: clean
+        default_target_temperature_high: 180 °F
+        mode: cool
+      - name: "off"
+        default_target_temperature_high: 70 °F
+        mode: "OFF"
+
+  - platform: thermostat
+    name: "${tank_b4_name} Ctrl"
+    id: tank_b4_ctrl
+    visual:
+      min_temperature: 30 °F
+      max_temperature: 180 °F
+      temperature_step: .1 °F
+    sensor: ${tank_b4_sensor_id}
+    min_cooling_off_time: 60s
+    min_cooling_run_time: 30s
+    min_idle_time: 60s
+    cool_deadband: 0.2
+    cool_overrun: 0.0
+    cool_action:
+      - switch.turn_on: ${tank_b4_valve_id}
+    idle_action:
+      - switch.turn_off: ${tank_b4_valve_id}
+    default_preset: "off"
+    preset:
+      - name: ferment (65)
+        default_target_temperature_high: 65 °F
+        mode: cool
+      - name: crash
+        default_target_temperature_high: 35 °F
+        mode: cool
+      - name: clean
+        default_target_temperature_high: 180 °F
+        mode: cool
+      - name: "off"
+        default_target_temperature_high: 70 °F
+        mode: "OFF"
+
+  - platform: thermostat
+    name: "${tank_b5_name} Ctrl"
+    id: tank_b5_ctrl
+    visual:
+      min_temperature: 30 °F
+      max_temperature: 180 °F
+      temperature_step: .1 °F
+    sensor: ${tank_b5_sensor_id}
+    min_cooling_off_time: 60s
+    min_cooling_run_time: 30s
+    min_idle_time: 60s
+    cool_deadband: 0.2
+    cool_overrun: 0.0
+    cool_action:
+      - switch.turn_on: ${tank_b5_valve_id}
+    idle_action:
+      - switch.turn_off: ${tank_b5_valve_id}
+    default_preset: "off"
+    preset:
+      - name: ferment (65)
+        default_target_temperature_high: 65 °F
+        mode: cool
+      - name: crash
+        default_target_temperature_high: 35 °F
+        mode: cool
+      - name: clean
+        default_target_temperature_high: 180 °F
+        mode: cool
+      - name: "off"
+        default_target_temperature_high: 70 °F
+        mode: "OFF"
+
+  - platform: thermostat
+    name: "${tank_b6_name} Ctrl"
+    id: tank_b6_ctrl
+    visual:
+      min_temperature: 30 °F
+      max_temperature: 180 °F
+      temperature_step: .1 °F
+    sensor: ${tank_b6_sensor_id}
+    min_cooling_off_time: 60s
+    min_cooling_run_time: 30s
+    min_idle_time: 60s
+    cool_deadband: 0.2
+    cool_overrun: 0.0
+    cool_action:
+      - switch.turn_on: ${tank_b6_valve_id}
+    idle_action:
+      - switch.turn_off: ${tank_b6_valve_id}
+    default_preset: "off"
+    preset:
+      - name: ferment (65)
+        default_target_temperature_high: 65 °F
+        mode: cool
+      - name: crash
+        default_target_temperature_high: 35 °F
+        mode: cool
+      - name: clean
+        default_target_temperature_high: 180 °F
+        mode: cool
+      - name: "off"
+        default_target_temperature_high: 70 °F
+        mode: "OFF"
+
+  - platform: thermostat
+    name: "${tank_b7_name} Ctrl"
+    id: tank_b7_ctrl
+    visual:
+      min_temperature: 30 °F
+      max_temperature: 180 °F
+      temperature_step: .1 °F
+    sensor: ${tank_b7_sensor_id}
+    min_cooling_off_time: 60s
+    min_cooling_run_time: 30s
+    min_idle_time: 60s
+    cool_deadband: 0.2
+    cool_overrun: 0.0
+    cool_action:
+      - switch.turn_on: ${tank_b7_valve_id}
+    idle_action:
+      - switch.turn_off: ${tank_b7_valve_id}
+    default_preset: "off"
+    preset:
+      - name: ferment (65)
+        default_target_temperature_high: 65 °F
+        mode: cool
+      - name: crash
+        default_target_temperature_high: 35 °F
+        mode: cool
+      - name: clean
+        default_target_temperature_high: 180 °F
+        mode: cool
+      - name: "off"
+        default_target_temperature_high: 70 °F
+        mode: "OFF"
+
+  - platform: thermostat
+    name: "${tank_c1_name} Ctrl"
+    id: tank_c1_ctrl
+    visual:
+      min_temperature: 30 °F
+      max_temperature: 180 °F
+      temperature_step: .1 °F
+    sensor: ${tank_c1_sensor_id}
+    min_cooling_off_time: 60s
+    min_cooling_run_time: 30s
+    min_idle_time: 60s
+    cool_deadband: 0.2
+    cool_overrun: 0.0
+    cool_action:
+      - switch.turn_on: ${tank_c1_valve_id}
+    idle_action:
+      - switch.turn_off: ${tank_c1_valve_id}
+    default_preset: "off"
+    preset:
+      - name: ferment (65)
+        default_target_temperature_high: 65 °F
+        mode: cool
+      - name: crash
+        default_target_temperature_high: 35 °F
+        mode: cool
+      - name: clean
+        default_target_temperature_high: 180 °F
+        mode: cool
+      - name: "off"
+        default_target_temperature_high: 70 °F
+        mode: "OFF"
+
+  - platform: thermostat
+    name: "${tank_c2_name} Ctrl"
+    id: tank_c2_ctrl
+    visual:
+      min_temperature: 30 °F
+      max_temperature: 180 °F
+      temperature_step: .1 °F
+    sensor: ${tank_c2_sensor_id}
+    min_cooling_off_time: 60s
+    min_cooling_run_time: 30s
+    min_idle_time: 60s
+    cool_deadband: 0.2
+    cool_overrun: 0.0
+    cool_action:
+      - switch.turn_on: ${tank_c2_valve_id}
+    idle_action:
+      - switch.turn_off: ${tank_c2_valve_id}
+    default_preset: "off"
+    preset:
+      - name: ferment (65)
+        default_target_temperature_high: 65 °F
+        mode: cool
+      - name: crash
+        default_target_temperature_high: 35 °F
+        mode: cool
+      - name: clean
+        default_target_temperature_high: 180 °F
+        mode: cool
+      - name: "off"
+        default_target_temperature_high: 70 °F
+        mode: "OFF"
+
+  - platform: thermostat
+    name: "${tank_c3_name} Ctrl"
+    id: tank_c3_ctrl
+    visual:
+      min_temperature: 30 °F
+      max_temperature: 180 °F
+      temperature_step: .1 °F
+    sensor: ${tank_c3_sensor_id}
+    min_cooling_off_time: 60s
+    min_cooling_run_time: 30s
+    min_idle_time: 60s
+    cool_deadband: 0.2
+    cool_overrun: 0.0
+    cool_action:
+      - switch.turn_on: ${tank_c3_valve_id}
+    idle_action:
+      - switch.turn_off: ${tank_c3_valve_id}
+    default_preset: "off"
+    preset:
+      - name: ferment (65)
+        default_target_temperature_high: 65 °F
+        mode: cool
+      - name: crash
+        default_target_temperature_high: 35 °F
+        mode: cool
+      - name: clean
+        default_target_temperature_high: 180 °F
+        mode: cool
+      - name: "off"
+        default_target_temperature_high: 70 °F
+        mode: "OFF"
+
+  - platform: thermostat
+    name: "${tank_c4_name} Ctrl"
+    id: tank_c4_ctrl
+    visual:
+      min_temperature: 30 °F
+      max_temperature: 180 °F
+      temperature_step: .1 °F
+    sensor: ${tank_c4_sensor_id}
+    min_cooling_off_time: 60s
+    min_cooling_run_time: 30s
+    min_idle_time: 60s
+    cool_deadband: 0.2
+    cool_overrun: 0.0
+    cool_action:
+      - switch.turn_on: ${tank_c4_valve_id}
+    idle_action:
+      - switch.turn_off: ${tank_c4_valve_id}
+    default_preset: "off"
+    preset:
+      - name: ferment (65)
+        default_target_temperature_high: 65 °F
+        mode: cool
+      - name: crash
+        default_target_temperature_high: 35 °F
+        mode: cool
+      - name: clean
+        default_target_temperature_high: 180 °F
+        mode: cool
+      - name: "off"
+        default_target_temperature_high: 70 °F
+        mode: "OFF"

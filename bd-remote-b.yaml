@@ -1,3 +1,7 @@
+# NOTE: Brewer-facing tank/temp names are assigned on the controller
+# (brew-control.yaml) using tank mappings from site-setting.yaml.
+# The sensor names below are raw remote probe names used for packet_transport.
+
 substitutions:
   devicename: "bd-remote-b"
   friendly_name: BD-Remote-B

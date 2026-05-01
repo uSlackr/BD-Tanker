@@ -1,0 +1,75 @@
+# BD-Tanker site-specific tank mapping
+# Maps logical tank names to packet_transport sensor IDs and valve outputs.
+# Sensor IDs here are local IDs in brew-control.yaml, not remote Dallas IDs.
+
+substitutions:
+  # Remote A
+  tank_a1_name: "7F2"
+  tank_a1_sensor_id: sb1_temp_f1
+  tank_a1_valve_id: valve_f01
+
+  tank_a2_name: "7F1"
+  tank_a2_sensor_id: sb1_temp_f2
+  tank_a2_valve_id: valve_f02
+
+  tank_a3_name: "5B1"
+  tank_a3_sensor_id: sb1_temp_f3
+  tank_a3_valve_id: valve_f03
+
+  tank_a4_name: "5F1"
+  tank_a4_sensor_id: sb1_temp_f4
+  tank_a4_valve_id: valve_f04
+
+  tank_a5_name: "5F2"
+  tank_a5_sensor_id: sb1_temp_b1
+  tank_a5_valve_id: valve_f05
+
+  tank_a6_name: "10F1"
+  tank_a6_sensor_id: sb1_temp_b2
+  tank_a6_valve_id: valve_f06
+
+  # Remote B
+  tank_b1_name: "30B1"
+  tank_b1_sensor_id: sb2_temp_f1
+  tank_b1_valve_id: valve_f07
+
+  tank_b2_name: "15B1"
+  tank_b2_sensor_id: sb2_temp_f2
+  tank_b2_valve_id: valve_f08
+
+  tank_b3_name: "30F5"
+  tank_b3_sensor_id: sb2_temp_f3
+  tank_b3_valve_id: valve_f09
+
+  tank_b4_name: "30F3"
+  tank_b4_sensor_id: sb2_temp_f4
+  tank_b4_valve_id: valve_f10
+
+  tank_b5_name: "30F1"
+  tank_b5_sensor_id: sb2_temp_b1
+  tank_b5_valve_id: valve_f11
+
+  tank_b6_name: "30F2"
+  tank_b6_sensor_id: sb2_temp_b2
+  tank_b6_valve_id: valve_f12
+
+  tank_b7_name: "30F4"
+  tank_b7_sensor_id: sb2_temp_b3
+  tank_b7_valve_id: valve_f13
+
+  # Remote C
+  tank_c1_name: "15F3"
+  tank_c1_sensor_id: sb3_temp_f1
+  tank_c1_valve_id: valve_f14
+
+  tank_c2_name: "15F2"
+  tank_c2_sensor_id: sb3_temp_f2
+  tank_c2_valve_id: valve_f15
+
+  tank_c3_name: "15F1"
+  tank_c3_sensor_id: sb3_temp_f3
+  tank_c3_valve_id: valve_f16
+
+  tank_c4_name: "15F4"
+  tank_c4_sensor_id: sb3_temp_f4
+  tank_c4_valve_id: valve_f17
