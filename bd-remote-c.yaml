@@ -1,6 +1,5 @@
-# NOTE: Brewer-facing tank/temp names are assigned on the controller
-# (brew-control.yaml) using tank mappings from site-setting.yaml.
-# The sensor names below are raw remote probe names used for packet_transport.
+# NOTE: HA-facing tank/temp names come from site-setting.yaml.
+# Packet transport IDs remain stable so brew-control can consume these internally.
 
 substitutions:
   devicename: "bd-remote-c"
@@ -9,10 +8,11 @@ substitutions:
   dallas_b_addr: "0x6100000fadbf9728"
   dallas_a_addr: "0x33000000b41a7528"
   dallas_d_addr: "0xf0000000ba0bbe28"
-  dallas_c_addr: "0xff000000baf01928"
-
+  #dallas_c_addr: "0xff000000baf01928"
+  dallas_c_addr: "0x0f00000052829128"
 
 packages:
+  site_settings: !include site-setting.yaml
   bd_probe_base: !include bd-probe-base.yaml
 esphome:
   name: ${devicename}
@@ -116,7 +116,7 @@ sensor:
   - platform: dallas_temp
     one_wire_id: dallas_hub
     address: ${dallas_a_addr}
-    name: "BDC Temperature Sensor 1"
+    name: "${tank_c1_name} Temp"
     id: bdc_temp_sensor_1
     update_interval: ${dallas_update_period}
     filters:
@@ -129,7 +129,7 @@ sensor:
   - platform: dallas_temp
     one_wire_id: dallas_hub
     address: ${dallas_b_addr}
-    name: "BDC Temperature Sensor 2"
+    name: "${tank_c2_name} Temp"
     id: bdc_temp_sensor_2
     update_interval: ${dallas_update_period}
     filters:
@@ -142,7 +142,7 @@ sensor:
   - platform: dallas_temp
     one_wire_id: dallas_hub
     address: ${dallas_c_addr}
-    name: "BDC Temperature Sensor 3"
+    name: "${tank_c3_name} Temp"
     id: bdc_temp_sensor_3
     update_interval: ${dallas_update_period}
     filters:
@@ -155,7 +155,7 @@ sensor:
   - platform: dallas_temp
     one_wire_id: dallas_hub
     address: ${dallas_d_addr}
-    name: "BDC Temperature Sensor 4"
+    name: "${tank_c4_name} Temp"
     id: bdc_temp_sensor_4
     update_interval: ${dallas_update_period}
     filters:

@@ -1,6 +1,5 @@
-# NOTE: Brewer-facing tank/temp names are assigned on the controller
-# (brew-control.yaml) using tank mappings from site-setting.yaml.
-# The sensor names below are raw remote probe names used for packet_transport.
+# NOTE: HA-facing tank/temp names come from site-setting.yaml.
+# Packet transport IDs remain stable so brew-control can consume these internally.
 
 substitutions:
   devicename: "bd-remote-b"
@@ -25,6 +24,7 @@ substitutions:
 
 
 packages:
+  site_settings: !include site-setting.yaml
   bd_probe_base: !include bd-probe-base.yaml
 
 
@@ -211,7 +211,7 @@ sensor:
   - platform: dallas_temp
     one_wire_id: dallas_hub
     address: ${dallas_a_addr}
-    name: "BDB Temperature Sensor 1"
+    name: "${tank_b1_name} Temp"
     id: bdb_temp_sensor_1
     update_interval: ${dallas_update_period}
     filters:
@@ -224,7 +224,7 @@ sensor:
   - platform: dallas_temp
     one_wire_id: dallas_hub
     address: ${dallas_b_addr}
-    name: "BDB Temperature Sensor 2"
+    name: "${tank_b2_name} Temp"
     id: bdb_temp_sensor_2
     update_interval: ${dallas_update_period}
     filters:
@@ -237,7 +237,7 @@ sensor:
   - platform: dallas_temp
     one_wire_id: dallas_hub
     address: ${dallas_c_addr}
-    name: "BDB Temperature Sensor 3"
+    name: "${tank_b3_name} Temp"
     id: bdb_temp_sensor_3
     update_interval: ${dallas_update_period}
     filters:
@@ -250,7 +250,7 @@ sensor:
   - platform: dallas_temp
     one_wire_id: dallas_hub
     address: ${dallas_d_addr}
-    name: "BDB Temperature Sensor 4"
+    name: "${tank_b4_name} Temp"
     id: bdb_temp_sensor_4
     update_interval: ${dallas_update_period}
     filters:
@@ -263,7 +263,7 @@ sensor:
   - platform: dallas_temp
     one_wire_id: dallas_hub
     address: ${dallas_e_addr}
-    name: "BDB Temperature Sensor 5"
+    name: "${tank_b5_name} Temp"
     id: bdb_temp_sensor_5
     update_interval: ${dallas_update_period}
     filters:
@@ -276,7 +276,7 @@ sensor:
   - platform: dallas_temp
     one_wire_id: dallas_hub
     address: ${dallas_f_addr}
-    name: "BDB Temperature Sensor 6"
+    name: "${tank_b6_name} Temp"
     id: bdb_temp_sensor_6
     update_interval: ${dallas_update_period}
     filters:
@@ -289,7 +289,7 @@ sensor:
   - platform: dallas_temp
     one_wire_id: dallas_hub
     address: ${dallas_g_addr}
-    name: "BDB Temperature Sensor 7"
+    name: "${tank_b7_name} Temp"
     id: bdb_temp_sensor_7
     update_interval: ${dallas_update_period}
     filters:
@@ -302,7 +302,7 @@ sensor:
   - platform: dallas_temp
     one_wire_id: dallas_hub
     address: ${dallas_h_addr}
-    name: "BDB Temperature Sensor 8"
+    internal: true
     id: bdb_temp_sensor_8
     update_interval: ${dallas_update_period}
     filters:

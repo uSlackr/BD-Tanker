@@ -623,108 +623,91 @@ sensor:
     provider: bd-remote-a
     id: sb1_temp_f1
     remote_id: bda_temp_sensor_1
-    name: "${tank_a1_name} Temp"
-    internal: False
+    internal: true
   - platform: packet_transport
     provider: bd-remote-a
     id: sb1_temp_f2
-    name: "${tank_a2_name} Temp"
     remote_id: bda_temp_sensor_2
-    internal: False
+    internal: true
   - platform: packet_transport
     provider: bd-remote-a
     id: sb1_temp_f3
-    name: "${tank_a3_name} Temp"
-    internal: False
+    internal: true
     remote_id: bda_temp_sensor_3
   - platform: packet_transport
     provider: bd-remote-a
     id: sb1_temp_f4
     remote_id: bda_temp_sensor_4
-    name: "${tank_a4_name} Temp"
-    internal: False
+    internal: true
   - platform: packet_transport
     provider: bd-remote-a
     id: sb1_temp_b1
-    name: "${tank_a5_name} Temp"
     remote_id: bda_temp_sensor_5
-    internal: False
+    internal: true
   - platform: packet_transport
     provider: bd-remote-a
-    name: "${tank_a6_name} Temp"
     id: sb1_temp_b2
     remote_id: bda_temp_sensor_6
-    internal: False
+    internal: true
 
   # Remote B sensors (bd-remote-b → bdb_temp_sensor_*)
   - platform: packet_transport
     provider: bd-remote-b
     id: sb2_temp_f1
     remote_id: bdb_temp_sensor_1
-    name: "${tank_b1_name} Temp"
-    internal: False
+    internal: true
   - platform: packet_transport
     provider: bd-remote-b
     id: sb2_temp_f2
-    name: "${tank_b2_name} Temp"
     remote_id: bdb_temp_sensor_2
-    internal: False
+    internal: true
   - platform: packet_transport
     provider: bd-remote-b
     id: sb2_temp_f3
-    name: "${tank_b3_name} Temp"
-    internal: False
+    internal: true
     remote_id: bdb_temp_sensor_3
   - platform: packet_transport
     provider: bd-remote-b
     id: sb2_temp_f4
     remote_id: bdb_temp_sensor_4
-    name: "${tank_b4_name} Temp"
-    internal: False
+    internal: true
   - platform: packet_transport
     provider: bd-remote-b
     id: sb2_temp_b1
-    name: "${tank_b5_name} Temp"
     remote_id: bdb_temp_sensor_5
-    internal: False
+    internal: true
   - platform: packet_transport
     provider: bd-remote-b
-    name: "${tank_b6_name} Temp"
     id: sb2_temp_b2
     remote_id: bdb_temp_sensor_6
-    internal: False
+    internal: true
   - platform: packet_transport
     provider: bd-remote-b
-    name: "${tank_b7_name} Temp"
     id: sb2_temp_b3
     remote_id: bdb_temp_sensor_7
-    internal: False
+    internal: true
 
   # Remote C sensors (bd-remote-c → bdc_temp_sensor_*)
   - platform: packet_transport
     provider: bd-remote-c
     id: sb3_temp_f1
     remote_id: bdc_temp_sensor_1
-    name: "${tank_c1_name} Temp"
-    internal: False
+    internal: true
   - platform: packet_transport
     provider: bd-remote-c
     id: sb3_temp_f2
-    name: "${tank_c2_name} Temp"
     remote_id: bdc_temp_sensor_2
-    internal: False
+    internal: true
   - platform: packet_transport
     provider: bd-remote-c
     id: sb3_temp_f3
-    name: "${tank_c3_name} Temp"
-    internal: False
+    internal: true
     remote_id: bdc_temp_sensor_3
   - platform: packet_transport
     provider: bd-remote-c
     id: sb3_temp_f4
     remote_id: bdc_temp_sensor_4
-    name: "${tank_c4_name} Temp"
-    internal: False
+    internal: true
   - platform: dallas_temp
     one_wire_id: one_wire_1
     #address: 0x47000000be756828
