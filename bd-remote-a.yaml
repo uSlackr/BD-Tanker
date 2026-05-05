@@ -88,7 +88,7 @@ globals:
 # Template sensors to import calibration values from Home Assistant
 number:
   - platform: template
-    name: "Temp Sensor 1 Calibration"
+    name: "${tank_a1_name} Temp Calibration"
     id: temp_cal_1
     min_value: -10.0
     max_value: 10.0
@@ -103,7 +103,7 @@ number:
           value: !lambda 'return x;'
 
   - platform: template
-    name: "Temp Sensor 2 Calibration"
+    name: "${tank_a2_name} Temp Calibration"
     id: temp_cal_2
     min_value: -10.0
     max_value: 10.0
@@ -118,7 +118,7 @@ number:
           value: !lambda 'return x;'
 
   - platform: template
-    name: "Temp Sensor 3 Calibration"
+    name: "${tank_a3_name} Temp Calibration"
     id: temp_cal_3
     min_value: -10.0
     max_value: 10.0
@@ -133,7 +133,7 @@ number:
           value: !lambda 'return x;'
 
   - platform: template
-    name: "Temp Sensor 4 Calibration"
+    name: "${tank_a4_name} Temp Calibration"
     id: temp_cal_4
     min_value: -10.0
     max_value: 10.0
@@ -148,7 +148,7 @@ number:
           value: !lambda 'return x;'
 
   - platform: template
-    name: "Temp Sensor 5 Calibration"
+    name: "${tank_a5_name} Temp Calibration"
     id: temp_cal_5
     min_value: -10.0
     max_value: 10.0
@@ -163,7 +163,7 @@ number:
           value: !lambda 'return x;'
 
   - platform: template
-    name: "Temp Sensor 6 Calibration"
+    name: "${tank_a6_name} Temp Calibration"
     id: temp_cal_6
     min_value: -10.0
     max_value: 10.0
@@ -178,7 +178,7 @@ number:
           value: !lambda 'return x;'
 
   - platform: template
-    name: "Temp Sensor 7 Calibration"
+    name: "Spare Temp Sensor 7 Calibration"
     id: temp_cal_7
     min_value: -10.0
     max_value: 10.0
@@ -193,7 +193,7 @@ number:
           value: !lambda 'return x;'
 
   - platform: template
-    name: "Temp Sensor 8 Calibration"
+    name: "Spare Temp Sensor 8 Calibration"
     id: temp_cal_8
     min_value: -10.0
     max_value: 10.0
